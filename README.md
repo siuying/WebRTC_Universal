@@ -9,6 +9,14 @@ Google provides the official builds for iOS, if all you need is iOS build, get i
 
 ## Installation
 
+### Manual Install
+
+Download the xcframework at [Release](https://github.com/siuying/WebRTC_Universal/releases) and drag it into your Xcode project.
+
+### CocoaPods
+
+Requires cocoapods 1.9.0 or above.
+
 ``
 pod "WebRTC_Universal"
 ``
