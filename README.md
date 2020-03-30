@@ -5,7 +5,7 @@ This is WebRTC framework in xcframework format for iOS and macOS.
 Google provides the official builds for iOS, if all you need is iOS build, get it from Google:
 
 - https://cocoapods.org/pods/GoogleWebRTC
-- https://webrtc.org/native-code/ios/
+- https://webrtc.github.io/webrtc-org/native-code/io/
 
 ## Installation
 
