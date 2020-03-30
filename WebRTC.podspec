@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
     s.source       = { :http => "https://github.com/siuying/WebRTC_Universal/releases/download/1/WebRTC-20200329-8e1824.tar.gz" }
     s.license      = { :type => "Multiple", :file => "LICENSE.md" }
     s.author       = "Google Inc."
-    s.preserve_paths = ["LICENSE.md"]
+    s.preserve_paths = ["LICENSE.md", "WebRTC.xcframework"]
     s.ios.deployment_target = '10.0'
     s.osx.deployment_target = '10.14'
     s.vendored_frameworks = "WebRTC.xcframework"
