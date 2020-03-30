@@ -18,7 +18,7 @@ Download the xcframework at [Release](https://github.com/siuying/WebRTC_Universa
 Requires cocoapods 1.9.0 or above.
 
 ``
-pod "WebRTC", :git => "https://github.com/siuying/WebRTC_Universal"
+pod "WebRTC", :podspec => "https://raw.githubusercontent.com/siuying/WebRTC_Universal/master/WebRTC.podspec"
 ``
 
 ## Building your own manually
