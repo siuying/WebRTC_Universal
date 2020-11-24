@@ -1,5 +1,5 @@
 diff --git a/BUILD.gn b/BUILD.gn
-index dec3d6f902..7a8a8790b2 100644
+index dec3d6f902..c4088b7404 100644
 --- a/BUILD.gn
 +++ b/BUILD.gn
 @@ -167,7 +167,13 @@ config("common_inherited_config") {
@@ -17,21 +17,19 @@ index dec3d6f902..7a8a8790b2 100644
      defines += [
        "WEBRTC_MAC",
        "WEBRTC_IOS",
-@@ -293,6 +299,10 @@ config("common_config") {
-     defines += [ "WEBRTC_EXCLUDE_AUDIO_PROCESSING_MODULE" ]
-   }
- 
-+  if (target_environment == "catalyst") {
-+    defines += [ "WEBRTC_DISABLE_OPENGL" ]
-+  }
-+
-   cflags = []
- 
-   if (build_with_chromium) {
 diff --git a/examples/BUILD.gn b/examples/BUILD.gn
-index c2678962d7..db37164536 100644
+index c2678962d7..7c532d56fd 100644
 --- a/examples/BUILD.gn
 +++ b/examples/BUILD.gn
+@@ -293,7 +293,7 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
+       ":apprtc_common",
+       ":socketrocket",
+       "../sdk:base_objc",
+-      "../sdk:default_codec_factory_objc",
++      # "../sdk:default_codec_factory_objc",
+       "../sdk:file_logger_objc",
+       "../sdk:helpers_objc",
+       "../sdk:mediaconstraints_objc",
 @@ -308,7 +308,7 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
      ]
    }
@@ -55,8 +53,12 @@ index c2678962d7..db37164536 100644
        if (rtc_use_metal_rendering) {
          deps += [ "../sdk:metal_objc" ]
        }
-@@ -502,11 +504,12 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
-         "../sdk:default_codec_factory_objc",
+@@ -499,14 +501,15 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
+         "../rtc_base",
+         "../rtc_base/synchronization:mutex",
+         "../sdk:base_objc",
+-        "../sdk:default_codec_factory_objc",
++        # "../sdk:default_codec_factory_objc",
          "../sdk:helpers_objc",
          "../sdk:native_api",
 -        "../sdk:ui_objc",
@@ -116,7 +118,7 @@ index 45f783feb3..cdad3e868b 100644
  #else
  #import <CoreServices/CoreServices.h>
 diff --git a/sdk/BUILD.gn b/sdk/BUILD.gn
-index c50c01dabd..e21c0ef0f8 100644
+index c50c01dabd..fe7235c11f 100644
 --- a/sdk/BUILD.gn
 +++ b/sdk/BUILD.gn
 @@ -496,10 +496,12 @@ if (is_ios || is_mac) {
@@ -239,7 +241,12 @@ index c50c01dabd..e21c0ef0f8 100644
          if (!build_with_chromium) {
            common_objc_headers += [
              "objc/api/logging/RTCCallbackLogger.h",
-@@ -1282,7 +1299,6 @@ if (is_ios || is_mac) {
+@@ -1278,11 +1295,10 @@ if (is_ios || is_mac) {
+         deps = [
+           ":audio_objc",
+           ":base_objc",
+-          ":default_codec_factory_objc",
++          # ":default_codec_factory_objc",
            ":native_api",
            ":native_video",
            ":peerconnectionfactory_base_objc",
@@ -270,6 +277,15 @@ index c50c01dabd..e21c0ef0f8 100644
          configs += [
            "..:common_objc",
            ":used_from_extension",
+@@ -1410,7 +1431,7 @@ if (is_ios || is_mac) {
+ 
+         deps = [
+           ":base_objc",
+-          ":default_codec_factory_objc",
++          #":default_codec_factory_objc",
+           ":native_api",
+           ":native_video",
+           ":peerconnectionfactory_base_objc",
 diff --git a/sdk/objc/components/video_codec/RTCVideoDecoderH264.mm b/sdk/objc/components/video_codec/RTCVideoDecoderH264.mm
 index 667553002c..0bd993ae62 100644
 --- a/sdk/objc/components/video_codec/RTCVideoDecoderH264.mm
@@ -301,7 +317,7 @@ index 03a792672c..bd21e5bf6a 100644
  #elif defined(WEBRTC_MAC)
      kCVPixelBufferOpenGLCompatibilityKey,
 diff --git a/webrtc.gni b/webrtc.gni
-index 4272e441f0..c3e484c9a9 100644
+index 4272e441f0..ec21cea6cd 100644
 --- a/webrtc.gni
 +++ b/webrtc.gni
 @@ -27,11 +27,11 @@ if (!build_with_chromium && is_component_build) {
@@ -341,12 +357,3 @@ index 4272e441f0..c3e484c9a9 100644
  
    # When set to false, builtin audio encoder/decoder factories and all the
    # audio codecs they depend on will not be included in libwebrtc.{a|lib}
-@@ -255,7 +255,7 @@ declare_args() {
-   }
- 
-   # Include tests in standalone checkout.
--  rtc_include_tests = !build_with_chromium && !build_with_mozilla
-+  rtc_include_tests = !build_with_chromium && !build_with_mozilla && !is_catalyst
- 
-   # Set this to false to skip building code that also requires X11 extensions
-   # such as Xdamage, Xfixes.
