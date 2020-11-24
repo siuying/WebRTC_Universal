@@ -72,9 +72,9 @@ def CreateSymlink(value, location):
   target = os.path.join(os.path.dirname(location), value)
   if os.path.exists(location):
     if os.path.islink(location):
-      shutil.rmtree(os.path.join(bundle.path, name))
-    else:
       os.unlink(location)
+    else:
+      shutil.rmtree(location)
   os.symlink(value, location)
 
 
@@ -539,8 +539,6 @@ class CodeSignBundleAction(Action):
       for name in ('Headers', 'Resources', 'Modules'):
         target = os.path.join(bundle.path, 'Versions/A', name)
         if os.path.exists(target):
-          if os.path.exists(os.path.join(bundle.path, name)):
-            shutil.rmtree(os.path.join(bundle.path, name))
           CreateSymlink(os.path.join('Versions/Current', name),
                         os.path.join(bundle.path, name))
         else:
