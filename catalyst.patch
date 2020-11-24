@@ -271,7 +271,7 @@ index c50c01dabd..e21c0ef0f8 100644
            "..:common_objc",
            ":used_from_extension",
 diff --git a/sdk/objc/components/video_codec/RTCVideoDecoderH264.mm b/sdk/objc/components/video_codec/RTCVideoDecoderH264.mm
-index 667553002c..8e026ddb2c 100644
+index 667553002c..0bd993ae62 100644
 --- a/sdk/objc/components/video_codec/RTCVideoDecoderH264.mm
 +++ b/sdk/objc/components/video_codec/RTCVideoDecoderH264.mm
 @@ -209,7 +209,9 @@ - (int)resetDecompressionSession {
@@ -279,14 +279,14 @@ index 667553002c..8e026ddb2c 100644
  
    CFTypeRef keys[attributesSize] = {
 -#if defined(WEBRTC_IOS)
-+#if defined(WEBRTC_DISABLE_OPENGL)
++#if defined(WEBRTC_CATALYST)
 +      kCVPixelBufferMetalCompatibilityKey,
 +#elif defined(WEBRTC_IOS)
        kCVPixelBufferOpenGLESCompatibilityKey,
  #elif defined(WEBRTC_MAC)
        kCVPixelBufferOpenGLCompatibilityKey,
 diff --git a/sdk/objc/components/video_codec/RTCVideoEncoderH264.mm b/sdk/objc/components/video_codec/RTCVideoEncoderH264.mm
-index 03a792672c..cf22c5507c 100644
+index 03a792672c..bd21e5bf6a 100644
 --- a/sdk/objc/components/video_codec/RTCVideoEncoderH264.mm
 +++ b/sdk/objc/components/video_codec/RTCVideoEncoderH264.mm
 @@ -594,7 +594,9 @@ - (int)resetCompressionSessionWithPixelFormat:(OSType)framePixelFormat {
@@ -294,14 +294,14 @@ index 03a792672c..cf22c5507c 100644
    const size_t attributesSize = 3;
    CFTypeRef keys[attributesSize] = {
 -#if defined(WEBRTC_IOS)
-+#if defined(WEBRTC_DISABLE_OPENGL)
++#if defined(WEBRTC_CATALYST)
 +    kCVPixelBufferMetalCompatibilityKey,
 +#elif defined(WEBRTC_IOS)
      kCVPixelBufferOpenGLESCompatibilityKey,
  #elif defined(WEBRTC_MAC)
      kCVPixelBufferOpenGLCompatibilityKey,
 diff --git a/webrtc.gni b/webrtc.gni
-index 4272e441f0..5b0a4e35b3 100644
+index 4272e441f0..c3e484c9a9 100644
 --- a/webrtc.gni
 +++ b/webrtc.gni
 @@ -27,11 +27,11 @@ if (!build_with_chromium && is_component_build) {
@@ -341,14 +341,12 @@ index 4272e441f0..5b0a4e35b3 100644
  
    # When set to false, builtin audio encoder/decoder factories and all the
    # audio codecs they depend on will not be included in libwebrtc.{a|lib}
-@@ -219,8 +219,8 @@ declare_args() {
-   # Disable these to not build components which can be externally provided.
-   rtc_build_json = !build_with_mozilla
-   rtc_build_libsrtp = !build_with_mozilla
--  rtc_build_libvpx = !build_with_mozilla
--  rtc_libvpx_build_vp9 = !build_with_mozilla
-+  rtc_build_libvpx = !build_with_mozilla && !is_catalyst
-+  rtc_libvpx_build_vp9 = !build_with_mozilla && !is_catalyst
-   rtc_build_opus = !build_with_mozilla
-   rtc_build_ssl = !build_with_mozilla
-   rtc_build_usrsctp = !build_with_mozilla
+@@ -255,7 +255,7 @@ declare_args() {
+   }
+ 
+   # Include tests in standalone checkout.
+-  rtc_include_tests = !build_with_chromium && !build_with_mozilla
++  rtc_include_tests = !build_with_chromium && !build_with_mozilla && !is_catalyst
+ 
+   # Set this to false to skip building code that also requires X11 extensions
+   # such as Xdamage, Xfixes.
