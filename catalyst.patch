@@ -62,7 +62,7 @@ index dec3d6f902..8244b32eb3 100644
          "p2p",
          "pc",
 diff --git a/examples/BUILD.gn b/examples/BUILD.gn
-index c2678962d7..db37164536 100644
+index c2678962d7..702deaf178 100644
 --- a/examples/BUILD.gn
 +++ b/examples/BUILD.gn
 @@ -308,7 +308,7 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
@@ -74,7 +74,7 @@ index c2678962d7..db37164536 100644
      rtc_library("AppRTCMobile_lib") {
        # iOS must use WebRTC.framework which is dynamically linked.
        testonly = true
-@@ -346,10 +346,12 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
+@@ -346,7 +346,6 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
          "../sdk:mediaconstraints_objc",
          "../sdk:peerconnectionfactory_base_objc",
          "../sdk:peerconnectionfactory_base_objc",
@@ -82,13 +82,7 @@ index c2678962d7..db37164536 100644
          "../sdk:videocapture_objc",
          "../sdk:videocodec_objc",
        ]
-+      if (!is_catalyst) {
-+        deps += [ "../sdk:ui_objc" ]
-+      }
-       if (rtc_use_metal_rendering) {
-         deps += [ "../sdk:metal_objc" ]
-       }
-@@ -502,11 +504,12 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
+@@ -502,11 +501,9 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
          "../sdk:default_codec_factory_objc",
          "../sdk:helpers_objc",
          "../sdk:native_api",
@@ -97,13 +91,10 @@ index c2678962d7..db37164536 100644
          "../sdk:videotoolbox_objc",
        ]
 -
-+      if (!is_catalyst) {
-+        deps += [ "../sdk:ui_objc" ]
-+      }
        if (current_cpu == "arm64") {
          deps += [ "../sdk:metal_objc" ]
        }
-@@ -529,7 +532,7 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
+@@ -529,7 +526,7 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
      }
    }
  
@@ -112,7 +103,7 @@ index c2678962d7..db37164536 100644
      rtc_library("AppRTCMobile_lib") {
        testonly = true
        sources = [
-@@ -548,10 +551,12 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
+@@ -548,7 +545,6 @@ if (is_ios || (is_mac && target_cpu != "x86")) {
          "../sdk:metal_objc",
          "../sdk:peerconnectionfactory_base_objc",
          "../sdk:peerconnectionfactory_base_objc",
@@ -120,12 +111,6 @@ index c2678962d7..db37164536 100644
          "../sdk:videocapture_objc",
          "../sdk:videocodec_objc",
        ]
-+      if (!is_catalyst) {
-+        deps += [ "../sdk:ui_objc" ]
-+      }
-     }
- 
-     mac_app_bundle("AppRTCMobile") {
 diff --git a/examples/objc/AppRTCMobile/third_party/SocketRocket/SRWebSocket.m b/examples/objc/AppRTCMobile/third_party/SocketRocket/SRWebSocket.m
 index 45f783feb3..cdad3e868b 100644
 --- a/examples/objc/AppRTCMobile/third_party/SocketRocket/SRWebSocket.m
@@ -149,10 +134,10 @@ index 45f783feb3..cdad3e868b 100644
  #else
  #import <CoreServices/CoreServices.h>
 diff --git a/sdk/BUILD.gn b/sdk/BUILD.gn
-index c50c01dabd..d53d413bb7 100644
+index c50c01dabd..0894a37347 100644
 --- a/sdk/BUILD.gn
 +++ b/sdk/BUILD.gn
-@@ -496,10 +496,12 @@ if (is_ios || is_mac) {
+@@ -496,7 +496,6 @@ if (is_ios || is_mac) {
        deps = [
          ":base_objc",
          ":helpers_objc",
@@ -160,13 +145,7 @@ index c50c01dabd..d53d413bb7 100644
          ":videocapture_objc",
          ":videoframebuffer_objc",
        ]
-+      if (!is_catalyst) {
-+        deps += [":video_objc"]
-+      }
-     }
- 
-     if (rtc_use_metal_rendering) {
-@@ -541,13 +543,15 @@ if (is_ios || is_mac) {
+@@ -541,7 +540,6 @@ if (is_ios || is_mac) {
          deps = [
            ":base_objc",
            ":peerconnectionfactory_base_objc",
@@ -174,16 +153,7 @@ index c50c01dabd..d53d413bb7 100644
            ":videoframebuffer_objc",
            "../api/video:video_frame",
            "../api/video:video_rtp_headers",
-           "../rtc_base:checks",
-           "../rtc_base:rtc_base_approved",
-         ]
-+        if (!is_catalyst) {
-+          deps += [":video_objc"]
-+        }
-         configs += [ "..:common_objc" ]
-         public_configs = [ ":common_config_objc" ]
-       }
-@@ -590,10 +594,12 @@ if (is_ios || is_mac) {
+@@ -590,7 +588,6 @@ if (is_ios || is_mac) {
        deps = [
          ":base_objc",
          ":helpers_objc",
@@ -191,13 +161,7 @@ index c50c01dabd..d53d413bb7 100644
          ":videoframebuffer_objc",
          "../rtc_base/system:gcd_helpers",
        ]
-+      if (!is_catalyst) {
-+        deps += [":video_objc"]
-+      }
-     }
- 
-     rtc_library("videocodec_objc") {
-@@ -944,7 +950,6 @@ if (is_ios || is_mac) {
+@@ -944,7 +941,6 @@ if (is_ios || is_mac) {
          ":mediasource_objc",
          ":native_api",
          ":native_video",
@@ -205,17 +169,7 @@ index c50c01dabd..d53d413bb7 100644
          ":videoframebuffer_objc",
          ":videorendereradapter_objc",
          ":videosource_objc",
-@@ -983,6 +988,9 @@ if (is_ios || is_mac) {
-       if (is_ios) {
-         deps += [ ":native_api_audio_device_module" ]
-       }
-+      if (!is_catalyst) {
-+        deps += [":video_objc"]
-+      }
-     }
- 
-     if (rtc_include_tests) {
-@@ -1026,7 +1034,6 @@ if (is_ios || is_mac) {
+@@ -1026,7 +1022,6 @@ if (is_ios || is_mac) {
              ":native_api_audio_device_module",
              ":native_video",
              ":peerconnectionfactory_base_objc",
@@ -223,17 +177,7 @@ index c50c01dabd..d53d413bb7 100644
              ":video_toolbox_cc",
              ":videocapture_objc",
              ":videocodec_objc",
-@@ -1050,6 +1057,9 @@ if (is_ios || is_mac) {
-             sources += [ "objc/unittests/RTCMTLVideoView_xctest.m" ]
-             deps += [ ":metal_objc" ]
-           }
-+          if (!is_catalyst) {
-+            deps += [":video_objc"]
-+          }
- 
-           public_deps = [
-             "//build/config/ios:xctest",
-@@ -1140,7 +1150,6 @@ if (is_ios || is_mac) {
+@@ -1140,7 +1135,6 @@ if (is_ios || is_mac) {
            ":native_api",
            ":native_video",
            ":peerconnectionfactory_base_objc",
@@ -241,17 +185,7 @@ index c50c01dabd..d53d413bb7 100644
            ":videocapture_objc",
            ":videocodec_objc",
            ":videoframebuffer_objc",
-@@ -1167,6 +1176,9 @@ if (is_ios || is_mac) {
-           sources += [ "objc/unittests/RTCAudioSessionTest.mm" ]
-           deps += [ ":audio_session_objc" ]
-         }
-+        if (!is_catalyst) {
-+          deps += [":video_objc"]
-+        }
-       }
-     }
- 
-@@ -1176,43 +1188,12 @@ if (is_ios || is_mac) {
+@@ -1176,43 +1170,12 @@ if (is_ios || is_mac) {
          output_name = "WebRTC"
  
          common_objc_headers = [
@@ -295,7 +229,7 @@ index c50c01dabd..d53d413bb7 100644
            "objc/helpers/RTCDispatcher.h",
            "objc/helpers/UIDevice+RTCDevice.h",
            "objc/api/peerconnection/RTCAudioSource.h",
-@@ -1251,14 +1232,14 @@ if (is_ios || is_mac) {
+@@ -1251,12 +1214,6 @@ if (is_ios || is_mac) {
            "objc/api/peerconnection/RTCVideoSource.h",
            "objc/api/peerconnection/RTCVideoTrack.h",
            "objc/api/video_codec/RTCVideoCodecConstants.h",
@@ -307,16 +241,8 @@ index c50c01dabd..d53d413bb7 100644
 -          "objc/api/video_frame_buffer/RTCNativeMutableI420Buffer.h",
          ]
  
-+        if (!is_catalyst) {
-+          common_objc_headers += [
-+            "objc/components/renderer/opengl/RTCEAGLVideoView.h",
-+          ]
-+        }
-+
          if (!build_with_chromium) {
-           common_objc_headers += [
-             "objc/api/logging/RTCCallbackLogger.h",
-@@ -1276,16 +1257,7 @@ if (is_ios || is_mac) {
+@@ -1276,16 +1233,7 @@ if (is_ios || is_mac) {
          ]
  
          deps = [
@@ -334,7 +260,7 @@ index c50c01dabd..d53d413bb7 100644
            "../rtc_base:rtc_base_approved",
          ]
          if (rtc_use_metal_rendering) {
-@@ -1297,14 +1269,19 @@ if (is_ios || is_mac) {
+@@ -1297,14 +1245,11 @@ if (is_ios || is_mac) {
              ":file_logger_objc",
            ]
          }
@@ -346,14 +272,6 @@ index c50c01dabd..d53d413bb7 100644
 -          "GLKit.framework",
          ]
 -
-+        if (!is_catalyst) {
-+          deps += [
-+            ":ui_objc",
-+          ]
-+          frameworks += [
-+            "GLKit.framework",
-+          ]
-+        }
          configs += [
            "..:common_objc",
            ":used_from_extension",
