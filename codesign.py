@@ -73,7 +73,7 @@ def CreateSymlink(value, location):
   if os.path.exists(location):
     if os.path.islink(location):
       shutil.rmtree(os.path.join(bundle.path, name))
-    else
+    else:
       os.unlink(location)
   os.symlink(value, location)
 
